@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../js/jquery.js"></script>
+		<script src="../js/index.js"></script>
+		<script src="../js/jquery-ui.min.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.css" />
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-md-12" style="text-align:center;">
+				<img src="../img/logo_2.png" style="width:100%; max-width:150px;"/>
+			</div>
+			<a class="btn btn-primary" href="../index.html" role="button" style="position:absolute; right:0; top:0;">
+				<strong>Volver</strong>
+			</a>
+		</div>
+		<div class="row" style="text-align:center;">
+			<h3><span class="label label-success">EVENTOS</span></h3>
+		</div>
+		<div class="row" id="info">
+			
+		</div>
+		<div class="modal fade" id="evento_mas" tabindex="-1" role="dialog" aria-labelledby="evento_nombre">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content borde fondo">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body" id="info_evento" style="text-align:center;">
+						
+					</div>
+					<div class="modal-footer" style="border-top:0px;">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script>
+$(document).ready(function(){
+	var count = 1;
+	var url = "http://autorizacionsmo.com/app_movil/eventos.php";
+	$("#info").html("");
+	$.getJSON(url,function(eventos){
+		$.each(eventos, function(i,eventos){
+			var newRow =
+			'<div class="col-md-6">\
+				<div style="width:100%; position:relative; cursor:pointer;" onclick="open_eventos('+eventos.id+')">\
+					<a class="thumbnail">\
+						<img src="../eventos/'+eventos.img+'">\
+					</a>\
+					<div style="position:absolute; bottom:0; background:rgba(0, 0, 0, 0.57); color:#fff; width:100%; padding-left:15px;">\
+						<strong>'+eventos.nombre+'</strong>\
+					</div>\
+				</div>\
+			</div>';
+			$(newRow).appendTo("#info");
+		});
+	});
+});
+
+function open_eventos(data){
+	var url = "http://autorizacionsmo.com/app_movil/info_evento.php?evento="+data;
+	$("#info_evento").html("");
+	$.getJSON(url,function(info){
+		$.each(info, function(i,info){
+			var newRow =
+			'<strong>Evento: '+info.nombre+'</strong><br><br>\
+			<img src="../eventos/'+info.img+'" style="width:100%;"/><br><br>\
+			<p>'+info.des+'</p>';
+			$(newRow).appendTo("#info_evento");
+		});
+	});
+	
+	$('#evento_mas').modal('show');
+}
+</script>

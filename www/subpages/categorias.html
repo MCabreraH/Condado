@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../js/jquery.js"></script>
+		<script src="../js/index.js"></script>
+		<script src="../js/jquery-ui.min.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.css" />
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-md-12" style="text-align:center;">
+				<img src="../img/logo_2.png" style="width:100%; max-width:150px;"/>
+			</div>
+			<a class="btn btn-primary" href="../index.html" role="button" style="position:absolute; right:0; top:0;">
+				<strong>Volver</strong>
+			</a>
+		</div>
+		<div class="row" id="info">
+			
+		</div>
+	</body>
+</html>
+<script>
+$(document).ready(function(){
+	var count = 1;
+	var url = "http://autorizacionsmo.com/app_movil/categorias.php";
+	$("#info").html("");
+	$.getJSON(url,function(categoria){
+		$.each(categoria, function(i,categoria){
+			if(count == 1){
+				var color = '#cebf45';
+			}else if(count == 2){
+				var color = '#cb8a43';
+			}else if(count == 3){
+				var color = '#5376a0';
+			}else if(count == 4){
+				var color = '#9fac68';
+			}else if(count == 5){
+				var color = '#bc3a82';
+			}
+			var newRow =
+			'<div class="col-xs-6">\
+				<div onclick="categoria('+categoria.id+')" style="background-color:'+color+'; color:#fff; border-radius:10px; border:1px solid '+color+'; margin-bottom:20px;">\
+					<img src="../img/bag_back.png" style="width:100%; opacity:0.3;"/>\
+					<div style="position:absolute; bottom:20px; background:rgba(0, 0, 0, 0.57); color:#fff; width:79%; padding-left:; border-bottom-right-radius:10px; border-bottom-left-radius:10px;">\
+						<span style="transform: rotate(45deg); font-size:10px;">'+categoria.nombre+'</span>\
+					</div>\
+				</div>\
+			</div>';
+			$(newRow).appendTo("#info");
+			if(count == 5){
+				count = 0;
+			}
+			count++;
+		});
+	});
+});
+
+function categoria(data){
+	window.location = 'locales.html?cat='+data;
+}
+</script>

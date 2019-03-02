@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../js/jquery.js"></script>
+		<script src="../js/index.js"></script>
+		<script src="../js/jquery-ui.min.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.css" />
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-md-12" style="text-align:center;">
+				<img src="../img/logo_2.png" style="width:100%; max-width:150px;"/>
+			</div>
+			<a class="btn btn-primary" href="categorias.html" role="button" style="position:absolute; right:0; top:0;">
+				<strong>Volver</strong>
+			</a>
+		</div>
+		<div class="row" style="text-align:center;">
+			<h3><span class="label label-success">LOCALES</span></h3>
+		</div>
+		<div class="row" id="info">
+			
+		</div>
+		<div class="modal fade" id="local_mas" tabindex="-1" role="dialog" aria-labelledby="local_nombre">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content" style="background:#313b31 url('../img/bodybackground.png') repeat-y scroll 50% 0;">
+					<div class="modal-header" style="border-bottom:0px;">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="local_nombre" style="color:#fff;"></h4>
+					</div>
+					<div class="modal-body" style="text-align:center; color:#fff;">
+						<img id="wait_local" src="../img/loading.gif" style="display:none;"/> 
+						<div class="table-responsive">
+							<table class="table" id="info_local">
+								
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer" style="border-top:0px;">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script>
+function getGET(){
+	var loc = document.location.href;
+	if(loc.indexOf('?') > 0){
+		var getString = loc.split('?')[1];
+		var GET = getString.split('&');
+		var get = {};
+
+		for(var i = 0, l = GET.length; i < l; i++){
+			var tmp = GET[i].split('=');
+			get[tmp[0]] = unescape(decodeURI(tmp[1]));
+		}
+		return get;
+	}
+}
+ 
+window.onload = function(){
+	var valores=getGET();
+	if(valores)
+	{
+		for(var index in valores){
+			var categoria = valores[index];
+			var url = "http://autorizacionsmo.com/app_movil/locales.php?cat="+categoria;
+			$("#info").html("");
+			$.getJSON(url,function(local){
+				$.each(local, function(i,local){
+					var newRow =
+					'<div class="col-xs-6">\
+						<div class="thumbnail" style="background-color:transparent;">\
+							<img src="../locales/'+local.logo+'">\
+							<div class="caption">\
+								<span>'+local.nombre+'</span>\
+								<p>\
+									<a onclick="saber_mas('+local.local_id+')" class="btn btn-primary" role="button">\
+										Info!\
+									</a>\
+								</p>\
+							</div>\
+						</div>\
+					</div>';
+					$(newRow).appendTo("#info");
+				});
+			});
+		}
+	}
+}
+
+function saber_mas(data){
+	var url = "http://autorizacionsmo.com/app_movil/info_local.php?local="+data;
+	$("#info_local").html("");
+	$.getJSON(url,function(info){
+		$.each(info, function(i,info){
+			var newRow =
+			'<tr>\
+				<td colspan="2" style="border-top:0px;">\
+					<img style="width:100%;" src="../locales/'+info.logo+'">\
+				</td>\
+			</tr>\
+			<tr>\
+				<td style="border-top:0px;">\
+					LOCAL:\
+				</td>\
+				<td style="border-top:0px;">\
+					<strong>'+info.nombre+'</strong>\
+				</td>\
+			</tr>\
+			<tr>\
+				<td style="border-top:0px;">\
+					# LOCAL:\
+				</td>\
+				<td style="border-top:0px;">\
+					<strong>'+info.numero+'</strong>\
+				</td>\
+			</tr>\
+			<tr>\
+				<td style="border-top:0px;">\
+					UBICACION\
+				</td>\
+				<td style="border-top:0px;">\
+					<strong>NIVEL: '+info.nivel+'</strong>\
+				</td>\
+			</tr>';
+			$(newRow).appendTo("#info_local");
+		});
+	});
+	
+	$('#local_mas').modal('show');
+}
+</script>
