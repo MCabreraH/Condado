@@ -5,14 +5,14 @@
         id        = "com.trevordmiller.modern-family-quotes"
         version   = "1.0.2">
 
-    <name>Modern Family Quotes</name>
+    <name>CONDADO MOVIL</name>
 
     <description>
-        The best quotes from Modern Family
+       App para moviles del Condado Shopping
     </description>
 
     <author href="http://trevordmiller.com" email="trevor@trevordmiller.com">
-        Trevor D Miller
+        Miguel Cabrera
     </author>
 
     <!--
