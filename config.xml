@@ -15,7 +15,7 @@
 
   <!-- all platforms -->
   <preference name="phonegap-version" value="cli-6.5.0" />
-  <preference name="orientation" value="portrait" />
+  <preference name="orientation" value="default" />
   <preference name="fullscreen" value="true" />
 
   <!-- iOS only -->
@@ -32,4 +32,11 @@
   <preference name="android-targetSdkVersion" value="12" />
   <preference name="android-installLocation" value="auto" />
   <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
+  
+  
+    <preference name="webviewbounce" value="true" />
+    <preference name="stay-in-webview" value="false" />
+	
+	<access origin="*" />
+  
 </widget>
